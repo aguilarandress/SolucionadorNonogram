@@ -85,7 +85,7 @@ public class MenuHandler : MonoBehaviour
         DataManager.Instance.infoMono.Add(Rows);
         DataManager.Instance.infoMono.Add(Columns);
         file.Close();
-        GridC grid = new GridC(DataManager.Instance.size[1], DataManager.Instance.size[0],70f);
+        GridC grid = new GridC(DataManager.Instance.size[1], DataManager.Instance.size[0],1500/ (DataManager.Instance.size[0] + DataManager.Instance.size[1]));
         
     }
     
