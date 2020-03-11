@@ -40,9 +40,25 @@ public class GridC
     {
         return new Vector3(x, y) * this.CellSize;
     }
-    public void setNegro(int x, int y)
+    public static void setNegro(int x, int y)
     {
         GameObject square = GameObject.Find("slot"+x+"_"+y);
+        Sprite cuadro = Resources.Load<Sprite>("squareb");
+        square.GetComponent<SpriteRenderer>().sprite = cuadro;
+
+
+    }
+    public static void setBlanco(int x, int y)
+    {
+        GameObject square = GameObject.Find("slot" + x + "_" + y);
+        Sprite cuadro = Resources.Load<Sprite>("square");
+        square.GetComponent<SpriteRenderer>().sprite = cuadro;
+
+
+    }
+    public static void setX(int x, int y)
+    {
+        GameObject square = GameObject.Find("slot" + x + "_" + y);
         Sprite cuadro = Resources.Load<Sprite>("squareb");
         square.GetComponent<SpriteRenderer>().sprite = cuadro;
 
