@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 using SimpleFileBrowser;
 using static SimpleFileBrowser.FileBrowser;
 using System.IO;
+
+
 namespace Solver
 {
 
@@ -18,8 +20,86 @@ namespace Solver
             // Get btn
             this.loadNonogramBtn = GameObject.Find("NonogramBtn").transform.Find("Button").GetComponent<Button>();
             this.loadNonogramBtn.onClick.AddListener(this.loadInputFileScene);
-        }
+            var clues = new List<List<int[]>>();
+            var rows = new List<int[]>();
 
+            rows.Add(new int[] { 3, 2 });
+            rows.Add(new int[] { 1, 1, 1, 1 });
+            rows.Add(new int[] { 1, 2, 1, 2 });
+            rows.Add(new int[] { 1, 2, 1, 1, 3 });
+            rows.Add(new int[] { 1, 1, 2, 1 });
+            rows.Add(new int[] { 2, 3, 1, 2 });
+            rows.Add(new int[] { 9, 3 });
+            rows.Add(new int[] { 2, 3 });
+            rows.Add(new int[] { 1, 2 });
+            rows.Add(new int[] { 1, 1, 1, 1 });
+            rows.Add(new int[] { 1, 4, 1 });
+            rows.Add(new int[] { 1, 2, 2, 2 });
+            rows.Add(new int[] { 1, 1, 1, 1, 1, 1, 2 });
+            rows.Add(new int[] { 2, 1, 1, 2, 1, 1 });
+            rows.Add(new int[] { 3, 4, 3, 1 });
+            clues.Add(rows);
+
+            var columns = new List<int[]>();
+            columns.Add(new int[] { 4, 3 });
+            columns.Add(new int[] { 1, 6, 2 });
+            columns.Add(new int[] { 1, 2, 2, 1, 1 });
+            columns.Add(new int[] { 1, 2, 2, 1, 2 });
+            columns.Add(new int[] { 3, 2, 3 });
+            columns.Add(new int[] { 2, 1, 3 });
+            columns.Add(new int[] { 1, 1, 1 });
+            columns.Add(new int[] { 2, 1, 4, 1 });
+            columns.Add(new int[] { 1, 1, 1, 1, 2 });
+            columns.Add(new int[] { 1, 4, 2 });
+            columns.Add(new int[] { 1, 1, 2, 1 });
+            columns.Add(new int[] { 2, 7, 1 });
+            columns.Add(new int[] { 2, 1, 1, 2 });
+            columns.Add(new int[] { 1, 2, 1 });
+            columns.Add(new int[] { 3, 3 });
+            clues.Add(columns);
+
+            // int[,] myMatrix = { { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } };
+            int[,] myMatrix = {
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+      };
+            Debug.Log("Nonogram inicial: ");
+            PrintMatrix(myMatrix);
+            Debug.Log("Nonogram terminado: ");
+
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
+            NonogramSolver.ResolverNonogram(myMatrix, clues, 0);
+            //stopwatch.Stop();
+            //Debug.Log("Tardo {0}s", stopwatch.Elapsed.Seconds);
+            PrintMatrix(myMatrix);
+        }
+        public static void PrintMatrix(int[,] matrix)
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    Debug.Log(matrix[i, j]);
+                    Debug.Log(" ");
+                }
+                Debug.Log('\n');
+
+            }
+        }
         private void loadInputFileScene()
         {
             // Cargar la escena
