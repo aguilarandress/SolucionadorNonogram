@@ -90,17 +90,17 @@ namespace Solver
             DataManager.Instance.infoMono.Add(Columns);
             DataManager.Instance.tablero = new int[DataManager.Instance.size[0], DataManager.Instance.size[1]];
             file.Close();
-            GridC grid = new GridC(DataManager.Instance.size[1], DataManager.Instance.size[0], 1500 / (DataManager.Instance.size[0] + DataManager.Instance.size[1]));
-            NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
-            for (int i = 0; i < DataManager.Instance.size[0]; i++)
-            {
-                for (int j = 0; j < DataManager.Instance.size[1]; j++)
-                {
-                    Debug.Log(DataManager.Instance.tablero[i, j]);
-                    Debug.Log(" ");
-                }
-                Debug.Log('\n');
-            }
+            GridC grid = new GridC(DataManager.Instance.size[1], DataManager.Instance.size[0], 3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]));
+            //NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
+            //for (int i = 0; i < DataManager.Instance.size[0]; i++)
+            //{
+            //    for (int j = 0; j < DataManager.Instance.size[1]; j++)
+            //    {
+            //        Debug.Log(DataManager.Instance.tablero[i, j]);
+            //        Debug.Log(" ");
+            //    }
+            //    Debug.Log('\n');
+            //}
         }
     }
 

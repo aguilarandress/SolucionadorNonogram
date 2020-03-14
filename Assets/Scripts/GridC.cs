@@ -27,8 +27,8 @@ public class GridC
                     Sprite cuadro = Resources.Load<Sprite>("square");
                     go.GetComponent<SpriteRenderer>().sprite = cuadro;
                     go.transform.SetParent(parent.transform);
-                    go.transform.localPosition = getWorldPosition(i, x);
-                    go.transform.localScale = new Vector2(200 / this.gridArray.GetLength(0), 200 / this.gridArray.GetLength(0));
+                    go.transform.localPosition = getWorldPosition(i-2, x-2);
+                    go.transform.localScale = new Vector2((3500/(DataManager.Instance.size[0]*DataManager.Instance.size[1]))/1.5f, (3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]))/1.5f);
                     //UtilsClass.CreateWorldText(gridArray[i, x].ToString(),parent.transform, getWorldPosition(i, x), 900, Color.white, TextAnchor.LowerLeft);   
 
                 }
