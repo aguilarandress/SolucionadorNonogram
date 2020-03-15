@@ -46,7 +46,7 @@ public class GridC
                     SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
                     Sprite cuadro = Resources.Load<Sprite>("square");
                     go.GetComponent<SpriteRenderer>().sprite = cuadro;
-                    go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, (-DataManager.Instance.size[0]/2)+x+0.6f); 
+                    go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, -(-DataManager.Instance.size[0]/2)-x+-0.6f); 
                     go.transform.localScale = new Vector2(0.7f,0.7f);
 
                 }
