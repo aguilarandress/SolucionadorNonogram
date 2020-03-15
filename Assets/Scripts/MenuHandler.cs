@@ -40,8 +40,8 @@ public class MenuHandler : MonoBehaviour
         System.IO.StreamReader file = new System.IO.StreamReader(path);
         string line;
         bool size = true;
-        var Rows = new List<List<int>>();
-        var Columns = new List<List<int>>();
+        var Rows = new List<int[]>();
+        var Columns = new List<int[]>();
         while ((line = file.ReadLine()) != null)
         {
             if (size)
@@ -63,24 +63,36 @@ public class MenuHandler : MonoBehaviour
                     {
                         break;
                     }
-                    List<int> Row = new List<int>();
+                    
                     string[] sizes = line.Split(',');
+                    int contador=0;
                     for (int o = 0; o < sizes.Length; o++)
                     {
-                        Row.Add(int.Parse(sizes[o]));
+                        contador++;
+                    }
+                    int[] Row = new int[contador];
+                    for (int o = 0; o < sizes.Length; o++)
+                    {
+                        Row[o] = int.Parse (sizes[o]);
                     }
                     Rows.Add(Row);
                 }
             }
             else
             {
-                List<int> Column = new List<int>();
+                
                 string[] sizes = line.Split(',');
+                int contador = 0;
                 for (int o = 0; o < sizes.Length; o++)
                 {
-                    Column.Add(int.Parse(sizes[o]));
+                    contador++;
                 }
-                Columns.Add(Column);
+                int[] column = new int[contador];
+                for (int o = 0; o < sizes.Length; o++)
+                {
+                    column[o]=int.Parse(sizes[o]);
+                }
+                Columns.Add(column);
             }
 
         }

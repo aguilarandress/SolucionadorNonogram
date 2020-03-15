@@ -6,7 +6,7 @@ namespace Solver
 {
     class NonogramSolver
     {
-        public static bool ResolverNonogram(int[,] tablero, List<List<List<int>>> pistas, int pistaFilaActual)
+        public static bool ResolverNonogram(int[,] tablero, List<List<int[]>> pistas, int pistaFilaActual)
         {
             // Encontrar el primer espacio vacio
             int[] espacioVacio = EncontrarEspacioVacio(tablero);

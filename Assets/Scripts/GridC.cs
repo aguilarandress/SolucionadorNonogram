@@ -19,7 +19,7 @@ public class GridC
         this.CellSize = CellSize;
 
         this.gridArray = new int[width, height];
-        GameObject parent = GameObject.Find("Container");
+        GameObject parent = GameObject.Find("MainCamera");
         for (int i = 0; i < gridArray.GetLength(1); i++)
         {
             for (int x = 0; x < gridArray.GetLength(0); x++)
@@ -29,10 +29,10 @@ public class GridC
                     SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
                     Sprite cuadro = Resources.Load<Sprite>("square");
                     go.GetComponent<SpriteRenderer>().sprite = cuadro;
-                    go.transform.SetParent(parent.transform);
+                    //go.transform.SetParent(parent.transform);
                     //go.transform.localPosition = getWorldPosition(i-2, x-2);
-                    go.transform.localPosition = getWorldPosition(i - 2, -(x - 2));
-                    go.transform.localScale = new Vector2((3500/(DataManager.Instance.size[0]*DataManager.Instance.size[1]))/1.5f, (3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]))/1.5f);
+                    go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, (-DataManager.Instance.size[0]/2)+x); 
+                    go.transform.localScale = new Vector2(1,1);
 
                 }
             }
