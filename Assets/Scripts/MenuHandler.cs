@@ -31,7 +31,7 @@ public class MenuHandler : MonoBehaviour
         FileBrowser.SetFilters(true, new FileBrowser.Filter("Text Files", ".txt", ".pdf"));
         FileBrowser.SetDefaultFilter(".txt");
         FileBrowser.ShowLoadDialog((path) => { organizarInfo(path); },
-                                    () => { SceneManager.LoadScene("MenuScene"); },
+                                    () => { Debug.Log("Cancelado..."); },
                                     false, null, "Seleccione un archivo de texto", "Seleccionar");
         
     }

@@ -505,6 +505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 0000000000000000
+  constante: 2700
+  sizeconst: 0
 --- !u!1 &805015619
 GameObject:
   m_ObjectHideFlags: 0
