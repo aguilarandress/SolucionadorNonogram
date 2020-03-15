@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Solver;
 using CodeMonkey.Utils;
 
 public class GridC
@@ -29,12 +30,38 @@ public class GridC
                     go.transform.SetParent(parent.transform);
                     go.transform.localPosition = getWorldPosition(i-2, x-2);
                     go.transform.localScale = new Vector2((3500/(DataManager.Instance.size[0]*DataManager.Instance.size[1]))/1.5f, (3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]))/1.5f);
-                    //UtilsClass.CreateWorldText(gridArray[i, x].ToString(),parent.transform, getWorldPosition(i, x), 900, Color.white, TextAnchor.LowerLeft);   
-
                 }
             }
         }
-        setNegro(0, 1);
+
+        for (int i = 0; i < DataManager.Instance.tablero.GetLength(0); i++)
+        {
+           for (int j = 0; j < DataManager.Instance.tablero.GetLength(1); j++)
+            {
+                DataManager.Instance.tablero[i, j] = 0;
+            }
+        }
+        NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
+        for (int i = 0; i < DataManager.Instance.tablero.GetLength(0); i++)
+        {
+            for (int j = 0; j < DataManager.Instance.tablero.GetLength(1); j++)
+            {
+                switch(DataManager.Instance.tablero[i, j])
+                {
+                    case 0:
+                        setBlanco(i, j);
+                        break;
+                    case 1:
+                        setNegro(i, j);
+                        break;
+                    default:
+                        setBlanco(i, j);
+                        break;
+                }
+            }
+        }
+
+        // setNegro(0, 1);
     }
     private Vector3 getWorldPosition(int x, int y)
     {
@@ -61,8 +88,6 @@ public class GridC
         GameObject square = GameObject.Find("slot" + x + "_" + y);
         Sprite cuadro = Resources.Load<Sprite>("squareb");
         square.GetComponent<SpriteRenderer>().sprite = cuadro;
-
-
     }
 
 }
