@@ -18,7 +18,7 @@ namespace Solver
             while (HayEspaciosDisponiblesEnFila(tablero, espacioVacio[0], pistas[0][espacioVacio[0]]))
             {
                 // Revisar si la sequencia funciona
-                bool ultimaSequenciaFila = pistas[0][espacioVacio[0]].Count - 1 == pistaFilaActual;
+                bool ultimaSequenciaFila = pistas[0][espacioVacio[0]].Length - 1 == pistaFilaActual;
                 int inicioSequencia = espacioVacio[1] + espacioAntesDeSecuencia;
                 if (RevisarSecuenciaValida(tablero, pistas, espacioVacio[0], inicioSequencia, espacioVacio[1],
                     sequenciaSize, ultimaSequenciaFila))
@@ -56,7 +56,7 @@ namespace Solver
             return false;
         }
 
-        static bool RevisarSecuenciaValida(int[,] tablero, List<List<List<int>>> pistas,
+        static bool RevisarSecuenciaValida(int[,] tablero, List<List<int[]>> pistas,
                                            int fila, int columna, int columnaOriginal, int size, bool esUltima)
         {
             // Crear copia del tablero
@@ -107,13 +107,13 @@ namespace Solver
                     sequenciasActuales.Add(sequenciaActual);
                     sequenciaActual = 0;
                 }
-                if (!columnaTerminada && sequenciasActuales.Count == pistas[1][i].Count && sequenciaActual != 0)
+                if (!columnaTerminada && sequenciasActuales.Count == pistas[1][i].Length && sequenciaActual != 0)
                 {
                     return false;
                 }
 
                 // Verificar numero de 2 y el numero sequencias en la columna
-                if (sequenciasActuales.Count > pistas[1][i].Count ||
+                if (sequenciasActuales.Count > pistas[1][i].Length ||
                 !RevisarEspaciosColumna(tableroCopia, i, pistas[1][i]))
                     return false;
 
@@ -127,7 +127,7 @@ namespace Solver
             if (RevisarFilaCompleta(tableroCopia, fila))
             {
                 int totalPistas = 0;
-                for (int i = 0; i < pistas[0][fila].Count; i++)
+                for (int i = 0; i < pistas[0][fila].Length; i++)
                 {
                     totalPistas += pistas[0][fila][i];
                 }
@@ -171,7 +171,7 @@ namespace Solver
             return tablero.GetLength(1) - resultado;
         }
 
-        static bool HayEspaciosDisponiblesEnFila(int[,] tablero, int fila, List<int> pistasDeFila)
+        static bool HayEspaciosDisponiblesEnFila(int[,] tablero, int fila, int[] pistasDeFila)
         {
             int cantidadEspacios = 0;
             for (int i = 0; i < tablero.GetLength(1); i++)
@@ -179,14 +179,14 @@ namespace Solver
                 if (tablero[fila, i] == 2) cantidadEspacios++;
             }
             int totalPistas = 0;
-            for (int i = 0; i < pistasDeFila.Count; i++)
+            for (int i = 0; i < pistasDeFila.Length; i++)
             {
                 totalPistas += pistasDeFila[i];
             }
             return cantidadEspacios <= tablero.GetLength(1) - totalPistas;
         }
 
-        static bool RevisarEspaciosColumna(int[,] tablero, int columna, List<int> pistasColumna)
+        static bool RevisarEspaciosColumna(int[,] tablero, int columna, int[] pistasColumna)
         {
             // Obtener la cantidad de espacios
             int cantidadEspacios = 0;
@@ -194,7 +194,7 @@ namespace Solver
                 if (tablero[i, columna] == 2) cantidadEspacios++;
             // Obtener el total de las pistas
             int totalPistas = 0;
-            for (int i = 0; i < pistasColumna.Count; i++)
+            for (int i = 0; i < pistasColumna.Length; i++)
                 totalPistas += pistasColumna[i];
             return cantidadEspacios + totalPistas <= tablero.GetLength(0);
         }
