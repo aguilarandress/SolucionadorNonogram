@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Solver;
+
 using CodeMonkey.Utils;
 using System.Threading;
 
@@ -19,7 +19,22 @@ public class GridC
         this.CellSize = CellSize;
 
         this.gridArray = new int[width, height];
-        GameObject parent = GameObject.Find("MainCamera");
+
+        int cameraSize;
+
+        if (DataManager.Instance.size[0] > DataManager.Instance.size[1])
+        {
+            cameraSize = DataManager.Instance.size[0];
+        }
+        else
+        {
+            cameraSize = DataManager.Instance.size[1];
+        }
+        GameObject camaraNew = new GameObject();
+        camaraNew.AddComponent<Camera>();
+        camaraNew.transform.position = new Vector3(0, 0, -1);
+        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize/1.4f ;
+        camaraNew.GetComponent<Camera>().orthographic = true;
         for (int i = 0; i < gridArray.GetLength(1); i++)
         {
             for (int x = 0; x < gridArray.GetLength(0); x++)
@@ -43,12 +58,12 @@ public class GridC
            for (int j = 0; j < DataManager.Instance.tablero.GetLength(1); j++)
             {
                 DataManager.Instance.tablero[i, j] = 0;
-                setNegro(i, j);
+                //setNegro(i, j);
             }
         }
 
         Debug.Log("Empezo...");
-       
+
         var stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
         NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);

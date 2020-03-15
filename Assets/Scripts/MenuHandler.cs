@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using SimpleFileBrowser;
-using Solver;
+
 using static SimpleFileBrowser.FileBrowser;
 using System.IO;
 
