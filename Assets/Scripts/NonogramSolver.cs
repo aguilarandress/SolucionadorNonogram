@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 namespace Solver
 {
     class NonogramSolver
@@ -156,8 +155,22 @@ namespace Solver
             for (int i = 0; i < size; i++)
             {
                 tablero[fila, columna] = numero;
+                //if (numero == 1)
+                //{
+                //    GridC.setNegro(fila, columna);
+                //}
+                //else if(numero==0)
+                //{
+                //    GridC.setBlanco(fila, columna);
+                //}
+                //else
+                //{
+                //    GridC.setX(fila, columna);
+                //}
                 columna++;
+                
             }
+
         }
 
         static int GetEspacioDisponibleFila(int[,] tablero, int fila, int[] pistasDeFila)

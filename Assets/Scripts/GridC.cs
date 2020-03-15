@@ -31,12 +31,11 @@ public class GridC
             cameraSize = DataManager.Instance.size[1];
         }
         //Crea una cámara nueva ubicada en 0,0 y le asigna un rango de visión acorde al tamaño del nonogram
-        GameObject camaraNew = new GameObject();
-        camaraNew.AddComponent<Camera>();
+        GameObject camaraNew = GameObject.Find("Main Camera");
         camaraNew.transform.position = new Vector3(0, 0, -1);
-        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize/1.55f ;
+        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize / 1.55f;
         camaraNew.GetComponent<Camera>().orthographic = true;
-        //Crea un sprite por cada elemento de la matriz del tamaño del nonogram 
+        //Crea un sprite por cada elemento de la matriz del tamaño del nonogram
         for (int i = 0; i < gridArray.GetLength(1); i++)
         {
             for (int x = 0; x < gridArray.GetLength(0); x++)
@@ -112,7 +111,7 @@ public class GridC
     public static void setX(int x, int y)
     {
         GameObject square = GameObject.Find("slot" + x + "_" + y);
-        Sprite cuadro = Resources.Load<Sprite>("squareb");
+        Sprite cuadro = Resources.Load<Sprite>("squarex");
         square.GetComponent<SpriteRenderer>().sprite = cuadro;
     }
 
