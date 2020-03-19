@@ -159,7 +159,7 @@ namespace Solver
                 //{
                 //    GridC.setNegro(fila, columna);
                 //}
-                //else if(numero==0)
+                //else if (numero == 0)
                 //{
                 //    GridC.setBlanco(fila, columna);
                 //}
@@ -167,6 +167,7 @@ namespace Solver
                 //{
                 //    GridC.setX(fila, columna);
                 //}
+                
                 columna++;
                 
             }
