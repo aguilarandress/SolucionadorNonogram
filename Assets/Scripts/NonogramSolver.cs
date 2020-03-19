@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Collections.Generic;
 
 namespace Solver
@@ -6,10 +7,18 @@ namespace Solver
     {
         public static bool ResolverNonogram(int[,] tablero, List<List<int[]>> pistas, int pistaFilaActual)
         {
+            if (DataManager.Instance.animado)
+            {
+                Thread.Sleep(175);
+            }
             // Encontrar el primer espacio vacio
             int[] espacioVacio = EncontrarEspacioVacio(tablero);
             // Algoritmo termina aqui
-            if (espacioVacio == null) return true;
+            if (espacioVacio == null)
+            {
+                DataManager.Instance.termino = true;
+                return true;
+            }
             // Trabajar mientras haya suficiente espacio para la sequencia actual
             int espacioAntesDeSecuencia = 0;
             int sequenciaSize = pistas[0][espacioVacio[0]][pistaFilaActual];
