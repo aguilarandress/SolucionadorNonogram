@@ -22,7 +22,7 @@ public class NonoSceneHandler : MonoBehaviour
         NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
         stopwatch.Stop();
         Debug.Log(stopwatch.ElapsedMilliseconds.ToString());
-        //Luego de solucionado el nonogram, se pintan los cuadros acorde al resultado
+        // Luego de solucionado el nonogram, se pintan los cuadros acorde al resultado
         for (int i = 0; i < DataManager.Instance.tablero.GetLength(0); i++)
         {
             string result = "";
