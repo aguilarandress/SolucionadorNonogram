@@ -4,6 +4,8 @@ using UnityEngine;
 using Solver;
 using CodeMonkey.Utils;
 using System.Threading;
+using UnityEngine.UI;
+using TMPro;
 
 public class GridC
 {
@@ -33,7 +35,7 @@ public class GridC
         //Crea una cámara nueva ubicada en 0,0 y le asigna un rango de visión acorde al tamaño del nonogram
         GameObject camaraNew = GameObject.Find("Main Camera");
         camaraNew.transform.position = new Vector3(0, 0, -1);
-        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize / 1.55f;
+        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize / 1.3f;
         camaraNew.GetComponent<Camera>().orthographic = true;
         //Crea un sprite por cada elemento de la matriz del tamaño del nonogram
         for (int i = 0; i < gridArray.GetLength(1); i++)
@@ -45,12 +47,56 @@ public class GridC
                     SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
                     Sprite cuadro = Resources.Load<Sprite>("square");
                     go.GetComponent<SpriteRenderer>().sprite = cuadro;
-                    go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, -(-DataManager.Instance.size[0]/2)-x+-0.6f); 
+                    go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, -(-DataManager.Instance.size[0]/2)-x+-1.6f); 
                     go.transform.localScale = new Vector2(0.7f,0.7f);
 
                 }
             }
         }
+        //Se crean labels que contienen las pistas
+        GameObject contenedor = GameObject.Find("CanvasPistas");
+        for (int i=0;i< height;i++)
+        {
+            GameObject square = GameObject.Find("slot0_"+i.ToString());
+            int [] pistas=DataManager.Instance.infoMono[0][i];
+            GameObject label = new GameObject();
+            label.AddComponent<TextMeshPro>();
+            label.transform.localPosition = new Vector2(square.transform.position.x-1.7f,square.transform.position.y);
+            string pista="";
+            for (int o=0;o<pistas.Length;o++)
+            {
+                pista += " " + pistas[o];
+            }
+            label.GetComponent<TextMeshPro>().text = pista;
+            label.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Center;
+            label.GetComponent<TextMeshPro>().fontSize = 6;
+
+        }
+        bool primero = true;
+        for (int i = 0; i < width; i++)
+        {
+            GameObject square = GameObject.Find("slot"+ i.ToString()+"_0");
+            int[] pistas = DataManager.Instance.infoMono[1][i];
+            GameObject label = new GameObject();
+            label.AddComponent<TextMeshPro>();
+            label.transform.localPosition = new Vector2(square.transform.position.x , square.transform.position.y+2);
+            string pista = "";
+            for (int o = 0; o < pistas.Length; o++)
+            {
+                if (primero)
+                {
+                    pista +=pistas[o];
+                    primero = false;
+                }
+                pista += "\n" + pistas[o];
+            }
+            label.GetComponent<TextMeshPro>().text = pista;
+            label.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Midline;
+            label.GetComponent<TextMeshPro>().fontSize = 6;
+
+        }
+
+
         //Se asigna como 0 a todos los valores de la matriz , dado que se requiere para el algoritmo de solución
         for (int i = 0; i < DataManager.Instance.tablero.GetLength(0); i++)
         {
@@ -60,36 +106,8 @@ public class GridC
             }
         }
 
-        Debug.Log("Empezo...");
 
-        var stopwatch = new System.Diagnostics.Stopwatch();
-        stopwatch.Start();
-        NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
-        stopwatch.Stop();
-        Debug.Log(stopwatch.ElapsedMilliseconds.ToString());
-        //Luego de solucionado el nonogram, se pintan los cuadros acorde al resultado
-        for (int i = 0; i < DataManager.Instance.tablero.GetLength(0); i++)
-        {
-            string result = "";
-            for (int j = 0; j < DataManager.Instance.tablero.GetLength(1); j++)
-            {
-                result += DataManager.Instance.tablero[i, j].ToString() + " ";
-                switch (DataManager.Instance.tablero[i, j])
-                {
-                    case 0:
-                        setBlanco(i, j);
-                        break;
-                    case 1:
-                        setNegro(i, j);
-                        break;
-                    default:
-                        setBlanco(i, j);
-                        break;
-                }
-            }
-            Debug.Log(result);
         }
-    }
 
 
 
@@ -114,5 +132,5 @@ public class GridC
         Sprite cuadro = Resources.Load<Sprite>("squarex");
         square.GetComponent<SpriteRenderer>().sprite = cuadro;
     }
-
+    
 }

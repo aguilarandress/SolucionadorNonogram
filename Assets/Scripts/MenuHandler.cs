@@ -8,26 +8,32 @@ using SimpleFileBrowser;
 
 using static SimpleFileBrowser.FileBrowser;
 using System.IO;
+using Solver;
 
 public class MenuHandler : MonoBehaviour
 {
     private Button loadNonogramBtn;
+  
 
     void Awake()
     {
         // Get btn
         this.loadNonogramBtn = GameObject.Find("NonogramBtn").transform.Find("Button").GetComponent<Button>();
         this.loadNonogramBtn.onClick.AddListener(this.loadInputFileScene);
-    }
 
+
+    }
+    
     private void loadInputFileScene()
     {
         // Cargar la escena
-        SceneManager.LoadScene("NonogramScene");
+
+        
         buscar();
     }
     private void buscar()
     {
+        SceneManager.LoadScene("NonogramScene");
         //Pide el archivo a cargar
         FileBrowser.SetFilters(true, new FileBrowser.Filter("Text Files", ".txt", ".pdf"));
         FileBrowser.SetDefaultFilter(".txt");
