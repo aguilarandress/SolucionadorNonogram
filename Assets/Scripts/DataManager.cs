@@ -11,7 +11,7 @@ public class DataManager : MonoBehaviour
     public int constante= 2700;
     public int sizeconst;
     public bool termino = false;
-    public bool animado = true; // prueba
+    public bool animado = false;
     public void Awake()
     {
         if(Instance==null)

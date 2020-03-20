@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Solver;
-using CodeMonkey.Utils;
-using System.Threading;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using TMPro;
 
 public class GridC
@@ -23,7 +17,7 @@ public class GridC
         this.gridArray = new int[width, height];
 
         int cameraSize;
-        //Decide si el nonogram es más grande en un eje o en el otro para ajustar la cámara
+        // Decide si el nonogram es más grande en un eje o en el otro para ajustar la cámara
         if (DataManager.Instance.size[0] > DataManager.Instance.size[1])
         {
             cameraSize = DataManager.Instance.size[0];
@@ -32,12 +26,12 @@ public class GridC
         {
             cameraSize = DataManager.Instance.size[1];
         }
-        //Crea una cámara nueva ubicada en 0,0 y le asigna un rango de visión acorde al tamaño del nonogram
+        // Crea una cámara nueva ubicada en 0,0 y le asigna un rango de visión acorde al tamaño del nonogram
         GameObject camaraNew = GameObject.Find("Main Camera");
         camaraNew.transform.position = new Vector3(0, 0, -1);
         camaraNew.GetComponent<Camera>().orthographicSize = cameraSize / 1.3f;
         camaraNew.GetComponent<Camera>().orthographic = true;
-        //Crea un sprite por cada elemento de la matriz del tamaño del nonogram
+        // Crea un sprite por cada elemento de la matriz del tamaño del nonogram
         for (int i = 0; i < gridArray.GetLength(1); i++)
         {
             for (int x = 0; x < gridArray.GetLength(0); x++)
@@ -49,11 +43,10 @@ public class GridC
                     go.GetComponent<SpriteRenderer>().sprite = cuadro;
                     go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, -(-DataManager.Instance.size[0]/2)-x+-1.6f); 
                     go.transform.localScale = new Vector2(0.7f,0.7f);
-
                 }
             }
         }
-        //Se crean labels que contienen las pistas
+        // Se crean labels que contienen las pistas
         GameObject contenedor = GameObject.Find("CanvasPistas");
         for (int i=0;i< height;i++)
         {
@@ -70,7 +63,6 @@ public class GridC
             label.GetComponent<TextMeshPro>().text = pista;
             label.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Center;
             label.GetComponent<TextMeshPro>().fontSize = 6;
-
         }
         bool primero = true;
         for (int i = 0; i < width; i++)
@@ -93,11 +85,9 @@ public class GridC
             label.GetComponent<TextMeshPro>().text = pista;
             label.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Midline;
             label.GetComponent<TextMeshPro>().fontSize = 6;
-
         }
 
-
-        //Se asigna como 0 a todos los valores de la matriz , dado que se requiere para el algoritmo de solución
+        // Se asigna como 0 a todos los valores de la matriz , dado que se requiere para el algoritmo de solución
         for (int i = 0; i < DataManager.Instance.tablero.GetLength(0); i++)
         {
            for (int j = 0; j < DataManager.Instance.tablero.GetLength(1); j++)
@@ -105,9 +95,7 @@ public class GridC
                 DataManager.Instance.tablero[i, j] = 0;
             }
         }
-
-
-        }
+    }
 
 
 
@@ -123,8 +111,6 @@ public class GridC
         GameObject square = GameObject.Find("slot" + y + "_" + x);
         Sprite cuadro = Resources.Load<Sprite>("square");
         square.GetComponent<SpriteRenderer>().sprite = cuadro;
-
-
     }
     public static void setX(int x, int y)
     {

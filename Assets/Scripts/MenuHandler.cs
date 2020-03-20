@@ -1,48 +1,36 @@
-﻿using System.Collections;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using SimpleFileBrowser;
 
-using static SimpleFileBrowser.FileBrowser;
-using System.IO;
-using Solver;
-
 public class MenuHandler : MonoBehaviour
 {
     private Button loadNonogramBtn;
-  
 
     void Awake()
     {
         // Get btn
         this.loadNonogramBtn = GameObject.Find("NonogramBtn").transform.Find("Button").GetComponent<Button>();
         this.loadNonogramBtn.onClick.AddListener(this.loadInputFileScene);
-
-
     }
     
     private void loadInputFileScene()
     {
-        // Cargar la escena
-
-        
-        buscar();
+        CargarNonogram();
     }
-    private void buscar()
+    private void CargarNonogram()
     {
         SceneManager.LoadScene("NonogramScene");
-        //Pide el archivo a cargar
+        // Cargar archivo
         FileBrowser.SetFilters(true, new FileBrowser.Filter("Text Files", ".txt", ".pdf"));
         FileBrowser.SetDefaultFilter(".txt");
         FileBrowser.ShowLoadDialog((path) => { organizarInfo(path); },
-                                    () => { Debug.Log("Cancelado..."); },
+                                    () => { SceneManager.LoadScene("MenuScene"); },
                                     false, null, "Seleccione un archivo de texto", "Seleccionar");
         
     }
-    //Se encarga de cargar el archivo seleccionado 
+
     private void organizarInfo(string path)
     {
         System.IO.StreamReader file = new System.IO.StreamReader(path);
@@ -50,7 +38,7 @@ public class MenuHandler : MonoBehaviour
         bool size = true;
         var Rows = new List<int[]>();
         var Columns = new List<int[]>();
-        //Recorre el archivo buscando el tamaño del nonogram
+        // Recorre el archivo buscando el tamaño del nonogram
         while ((line = file.ReadLine()) != null)
         {
             if (size)
@@ -61,16 +49,13 @@ public class MenuHandler : MonoBehaviour
                 {
                     DataManager.Instance.size[o] = int.Parse(sizes[o]);
                 }
-
             }
             //Busca las pistas por fila 
-
             else if (line == "FILAS")
             {
-
                 while ((line = file.ReadLine()) != null)
                 {   
-                    //En el momento que encuentra "columnas" sale del ciclo para cargar las pistas de columnas
+                    // En el momento que encuentra "columnas" sale del ciclo para cargar las pistas de columnas
                     if (line == "COLUMNAS")
                     {
                         break;
@@ -90,7 +75,7 @@ public class MenuHandler : MonoBehaviour
                     Rows.Add(Row);
                 }
             }
-            //Carga las pistas por columna
+            // Carga las pistas por columna
             else
             {
                 
@@ -109,13 +94,14 @@ public class MenuHandler : MonoBehaviour
             }
 
         }
-        //Añade la info a la instancia de singleton para su uso en varias escenas
+        // Añade la info a la instancia de singleton para su uso en varias escenas
         DataManager.Instance.infoMono.Add(Rows);
         DataManager.Instance.infoMono.Add(Columns);
         DataManager.Instance.tablero = new int[DataManager.Instance.size[0], DataManager.Instance.size[1]];
         file.Close();
-        //Crea el grid en base a la información proporcionada
-        GridC grid = new GridC(DataManager.Instance.size[1], DataManager.Instance.size[0], 3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]));
+        // Crea el grid en base a la información proporcionada
+        GridC grid = new GridC(DataManager.Instance.size[1], 
+                               DataManager.Instance.size[0], 3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]));
     }
 }
 
