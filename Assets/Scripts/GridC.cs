@@ -9,7 +9,6 @@ public class GridC
     private int[,] gridArray;
     public GridC(int height, int width, float CellSize)
     {
-        Debug.Log("Entro a grid...");
         this.width = width;
         this.height = height;
         this.CellSize = CellSize;
@@ -96,8 +95,6 @@ public class GridC
             }
         }
     }
-
-
 
     //Funciones que se encargan de cambiar el color de los sprites por otro 
     public static void setNegro(int x, int y)

@@ -8,13 +8,13 @@ public class DataManager : MonoBehaviour
     public List<List<int[]>> infoMono = new List<List<int[]>>();  
     public int[] size = new int[2];
     public int[,] tablero;
-    public int constante= 2700;
+    public int constante = 2700;
     public int sizeconst;
     public bool termino = false;
     public bool animado = false;
     public void Awake()
     {
-        if(Instance==null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
