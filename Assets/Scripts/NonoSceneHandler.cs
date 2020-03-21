@@ -2,36 +2,50 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Solver;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class NonoSceneHandler : MonoBehaviour
 {
     private Button startNonogramBtn;
+    private Button MenuBtn;
     private Toggle animacionToggler;
     private bool animar = false;
     public bool empezo = false;
+    private TextMeshPro timer;
+    System.Diagnostics.Stopwatch Contador = new System.Diagnostics.Stopwatch();
 
     // Start is called before the first frame update
     void Awake()
     {
         // Obtener game objects
         this.startNonogramBtn = GameObject.Find("ButtonS").GetComponent<Button>();
+        this.MenuBtn = GameObject.Find("MenuBackBtn").GetComponent<Button>();
         this.animacionToggler = GameObject.Find("animacionToggler").GetComponent<Toggle>();
+        this.timer = GameObject.Find("Timer").GetComponent<TextMeshPro>();
+
         // Set event listeners
         this.startNonogramBtn.onClick.AddListener(Resolver);
+        this.MenuBtn.onClick.AddListener(Menu);
         this.animacionToggler.onValueChanged.AddListener((value) => ToggleAnimacion());
     }
 
     // Update is called once per frame
+    void Menu()
+    {
+        DataManager.Instance = new DataManager();
+        SceneManager.LoadScene("MenuScene");
+
+    }
     void Update()
     {
 
     }
-
     void FixedUpdate()
     {
         // Verificar si se inicio el nonogram y si es animado
         if (empezo && this.animar)
-        {
+        {        
             PintarNonogram();
             if (DataManager.Instance.termino) empezo = false;
         }
@@ -64,12 +78,12 @@ public class NonoSceneHandler : MonoBehaviour
     void ResolverNonogram()
     {
         // Empezar a medir tiempo
-        System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-        stopwatch.Start();
+        
+        this.Contador.Start();
         // Resolver nonogram
         NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
-        stopwatch.Stop();
-        Debug.Log(stopwatch.ElapsedMilliseconds.ToString());
+        this.Contador.Stop();
+        Debug.Log(this.Contador.ElapsedMilliseconds.ToString());
     }
 
     static void PintarNonogram()

@@ -7,9 +7,10 @@ namespace Solver
     {
         public static bool ResolverNonogram(int[,] tablero, List<List<int[]>> pistas, int pistaFilaActual)
         {
+            
             if (DataManager.Instance.animado)
             {
-                Thread.Sleep(175);
+                Thread.Sleep(DataManager.Instance.animatedTime);
             }
             // Encontrar el primer espacio vacio
             int[] espacioVacio = EncontrarEspacioVacio(tablero);

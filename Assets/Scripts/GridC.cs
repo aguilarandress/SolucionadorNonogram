@@ -53,7 +53,7 @@ public class GridC
             int [] pistas=DataManager.Instance.infoMono[0][i];
             GameObject label = new GameObject();
             label.AddComponent<TextMeshPro>();
-            label.transform.localPosition = new Vector2(square.transform.position.x-1.7f,square.transform.position.y);
+            label.transform.localPosition = new Vector3(square.transform.position.x-1.7f,square.transform.position.y,1);
             string pista="";
             for (int o=0;o<pistas.Length;o++)
             {
