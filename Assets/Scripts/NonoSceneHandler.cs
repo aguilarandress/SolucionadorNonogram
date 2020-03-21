@@ -18,8 +18,6 @@ public class NonoSceneHandler : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-
-        Debug.Log(animar);
         // Obtener game objects
         this.startNonogramBtn = GameObject.Find("ButtonS").GetComponent<Button>();
         this.MenuBtn = GameObject.Find("MenuBackBtn").GetComponent<Button>();
@@ -49,17 +47,14 @@ public class NonoSceneHandler : MonoBehaviour
         if (empezo && this.animar)
         {        
             PintarNonogram();
-            if (DataManager.Instance.termino)
-            {
-                empezo = false;
-            }
-            
+            if (DataManager.Instance.termino) empezo = false;
         }
     }
 
     private void ToggleAnimacion()
     {
         this.animar = !this.animar;
+        DataManager.Instance.animado = !DataManager.Instance.animado;
     }
 
     private void Resolver()
@@ -71,6 +66,7 @@ public class NonoSceneHandler : MonoBehaviour
         // Iniciar solucion
         Thread solveNonogramThread = new Thread(new ThreadStart(ResolverNonogram));
         solveNonogramThread.Start();
+
         // Si no es animado esperar a que se termine de resolver
         if (!this.animar)
         {

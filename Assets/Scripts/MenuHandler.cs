@@ -28,7 +28,6 @@ public class MenuHandler : MonoBehaviour
         FileBrowser.ShowLoadDialog((path) => { organizarInfo(path); },
                                     () => { SceneManager.LoadScene("MenuScene"); },
                                     false, null, "Seleccione un archivo de texto", "Seleccionar");
-        
     }
 
     private void organizarInfo(string path)
