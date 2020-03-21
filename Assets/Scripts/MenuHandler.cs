@@ -99,6 +99,7 @@ public class MenuHandler : MonoBehaviour
         DataManager.Instance.infoMono.Add(Columns);
         DataManager.Instance.tablero = new int[DataManager.Instance.size[0], DataManager.Instance.size[1]];
         file.Close();
+        DataManager.Instance.animatedTime = 45000 / (DataManager.Instance.size[0] * DataManager.Instance.size[0]);
         // Crea el grid en base a la información proporcionada
         GridC grid = new GridC(DataManager.Instance.size[1], 
                                DataManager.Instance.size[0], 3500 / (DataManager.Instance.size[0] * DataManager.Instance.size[1]));
