@@ -12,7 +12,7 @@ public class NonoSceneHandler : MonoBehaviour
     private Toggle animacionToggler;
     private bool animar = false;
     public bool empezo = false;
-    private TextMeshPro timer;
+    public TextMeshProUGUI timer;
     System.Diagnostics.Stopwatch Contador = new System.Diagnostics.Stopwatch();
 
     // Start is called before the first frame update
@@ -22,7 +22,7 @@ public class NonoSceneHandler : MonoBehaviour
         this.startNonogramBtn = GameObject.Find("ButtonS").GetComponent<Button>();
         this.MenuBtn = GameObject.Find("MenuBackBtn").GetComponent<Button>();
         this.animacionToggler = GameObject.Find("animacionToggler").GetComponent<Toggle>();
-        this.timer = GameObject.Find("Timer").GetComponent<TextMeshPro>();
+        this.timer = GameObject.Find("Cronometro").GetComponent<TextMeshProUGUI>();
 
         // Set event listeners
         this.startNonogramBtn.onClick.AddListener(Resolver);
@@ -39,7 +39,11 @@ public class NonoSceneHandler : MonoBehaviour
     }
     void Update()
     {
-
+        if(this.empezo)
+        { 
+            this.timer.text = this.Contador.ElapsedMilliseconds.ToString()+" ms";
+        }
+       
     }
     void FixedUpdate()
     {
@@ -48,6 +52,11 @@ public class NonoSceneHandler : MonoBehaviour
         {        
             PintarNonogram();
             if (DataManager.Instance.termino) empezo = false;
+        }
+        else if(empezo&& DataManager.Instance.termino)
+        {
+            PintarNonogram();
+            empezo = false;
         }
     }
 
@@ -68,11 +77,7 @@ public class NonoSceneHandler : MonoBehaviour
         solveNonogramThread.Start();
 
         // Si no es animado esperar a que se termine de resolver
-        if (!this.animar)
-        {
-            solveNonogramThread.Join();
-            PintarNonogram();
-        }
+
     }
 
     void ResolverNonogram()
@@ -84,6 +89,7 @@ public class NonoSceneHandler : MonoBehaviour
         NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
         this.Contador.Stop();
         Debug.Log(this.Contador.ElapsedMilliseconds.ToString());
+
     }
 
     static void PintarNonogram()
