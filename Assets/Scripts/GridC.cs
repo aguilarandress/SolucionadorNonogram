@@ -28,7 +28,16 @@ public class GridC
         // Crea una cámara nueva ubicada en 0,0 y le asigna un rango de visión acorde al tamaño del nonogram
         GameObject camaraNew = GameObject.Find("Main Camera");
         camaraNew.transform.position = new Vector3(0, 0, -1);
-        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize / 1.3f;
+        float constanteCamara;
+        if((DataManager.Instance.size[0]* DataManager.Instance.size[1])<30)
+        {
+            constanteCamara = 0.95f;
+        }
+        else
+        {
+            constanteCamara = 1.3f;
+        }
+        camaraNew.GetComponent<Camera>().orthographicSize = cameraSize / constanteCamara;
         camaraNew.GetComponent<Camera>().orthographic = true;
         // Crea un sprite por cada elemento de la matriz del tamaño del nonogram
         for (int i = 0; i < gridArray.GetLength(1); i++)
@@ -76,10 +85,13 @@ public class GridC
             {
                 if (primero)
                 {
-                    pista +=pistas[o];
+                    pista += pistas[o];
                     primero = false;
                 }
-                pista += "\n" + pistas[o];
+                else
+                { 
+                    pista += "\n" + pistas[o];
+                }
             }
             label.GetComponent<TextMeshPro>().text = pista;
             label.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Midline;
