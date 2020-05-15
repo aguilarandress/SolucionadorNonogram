@@ -41,7 +41,16 @@ public class NonoSceneHandler : MonoBehaviour
     {
         if(this.empezo)
         { 
-            this.timer.text = this.Contador.ElapsedMilliseconds.ToString()+" ms";
+             
+            if(this.Contador.ElapsedMilliseconds <1  )
+            {
+                this.timer.text = "<1 ms";
+            }
+            else
+            {
+                this.timer.text = this.Contador.ElapsedMilliseconds.ToString() + " ms";
+            }
+            
         }
        
     }
@@ -88,7 +97,7 @@ public class NonoSceneHandler : MonoBehaviour
         // Resolver nonogram
         NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
         this.Contador.Stop();
-        Debug.Log(this.Contador.ElapsedMilliseconds.ToString());
+        Debug.Log(this.Contador.Elapsed.ToString());
 
     }
 
