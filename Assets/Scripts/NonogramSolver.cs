@@ -1,17 +1,20 @@
 using System.Threading;
 using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 
 namespace Solver
 {
     class NonogramSolver
     {
-        public static bool ResolverNonogram(int[,] tablero, List<List<int[]>> pistas, int pistaFilaActual)
+        public static bool ResolverNonogram(int[,] tablero, List<List<int[]>> pistas, int pistaFilaActual, int[] coordenadas)
         {
-            
+            // Realizar efecto de animacion por cada llamada recursiva
             if (DataManager.Instance.animado)
             {
                 Thread.Sleep(DataManager.Instance.animatedTime);
             }
+            /*
             // Encontrar el primer espacio vacio
             int[] espacioVacio = EncontrarEspacioVacio(tablero);
             // Algoritmo termina aqui
@@ -20,33 +23,50 @@ namespace Solver
                 DataManager.Instance.termino = true;
                 return true;
             }
+            */
+            // Condicion de parada
+            if (coordenadas[0] == tablero.GetLength(0))
+            {
+                DataManager.Instance.termino = true;
+                return true;
+            }
             // Trabajar mientras haya suficiente espacio para la sequencia actual
             int espacioAntesDeSecuencia = 0;
-            int sequenciaSize = pistas[0][espacioVacio[0]][pistaFilaActual];
-            while (HayEspaciosDisponiblesEnFila(tablero, espacioVacio[0], pistas[0][espacioVacio[0]]))
+            int secuenciaSize = pistas[0][coordenadas[0]][pistaFilaActual];
+            while (HayEspaciosDisponiblesEnFila(tablero, coordenadas[0], pistas[0][coordenadas[0]]))
             {
                 // Revisar si la sequencia funciona
-                bool ultimaSequenciaFila = pistas[0][espacioVacio[0]].Length - 1 == pistaFilaActual;
-                int inicioSequencia = espacioVacio[1] + espacioAntesDeSecuencia;
-                if (RevisarSecuenciaValida(tablero, pistas, espacioVacio[0], inicioSequencia, espacioVacio[1],
-                    sequenciaSize, ultimaSequenciaFila))
+                bool ultimaSequenciaFila = pistas[0][coordenadas[0]].Length - 1 == pistaFilaActual;
+                int inicioSequencia = coordenadas[1] + espacioAntesDeSecuencia;
+                if (RevisarSecuenciaValida(tablero, pistas, coordenadas[0], inicioSequencia, coordenadas[1],
+                    secuenciaSize, ultimaSequenciaFila))
                 {
+                    int[] nuevasCoordenadas = new int[2];
+                    if (ultimaSequenciaFila)
+                    {
+                        nuevasCoordenadas[0] = coordenadas[0] + 1;
+                        nuevasCoordenadas[1] = 0;
+                    }
+                    else
+                    {
+                        nuevasCoordenadas[0] = coordenadas[0];
+                        nuevasCoordenadas[1] = inicioSequencia + secuenciaSize;
+                    }
                     // Continuar resolviendo
-                    if (ResolverNonogram(tablero, pistas, ultimaSequenciaFila ? 0 : pistaFilaActual + 1))
+                    if (ResolverNonogram(tablero, pistas, ultimaSequenciaFila ? 0 : pistaFilaActual + 1, nuevasCoordenadas))
                         return true;
                 }
                 // Deshacer la sequencia
-                PintarSecuencia(tablero, espacioVacio[0], inicioSequencia, tablero.GetLength(1) - inicioSequencia, 0);
+                PintarSecuencia(tablero, coordenadas[0], inicioSequencia, tablero.GetLength(1) - inicioSequencia, 0);
 
                 // Si la sequencia es del mismo tamanno que la fila
-                if (sequenciaSize == tablero.GetLength(1))
-                    return false;
+                if (secuenciaSize == tablero.GetLength(1)) return false;
                 // Mover sequencia una posicion a la derecha
-                tablero[espacioVacio[0], inicioSequencia] = 2;
+                tablero[coordenadas[0], inicioSequencia] = 2;
                 espacioAntesDeSecuencia++;
             }
             // Limpiar todos los espacios de la fila
-            PintarSecuencia(tablero, espacioVacio[0], espacioVacio[1], tablero.GetLength(1) - espacioVacio[1], 0);
+            PintarSecuencia(tablero, coordenadas[0], coordenadas[1], tablero.GetLength(1) - coordenadas[1], 0);
             return false;
         }
 
@@ -60,11 +80,13 @@ namespace Solver
             if (esUltima)
             {
                 indexFinalRevision = tablero.GetLength(1);
+                // Pintar el resto de las casillas con vacios
                 if (columna + size != tablero.GetLength(1))
                     PintarSecuencia(tablero, fila, columna + size, tablero.GetLength(1) - (columna + size), 2);
             }
             else
             {
+                // Revisar hasta donde es que se termina de revisar
                 indexFinalRevision = columna + size + 1 > tablero.GetLength(1) ? columna + size : columna + size + 1;
                 PintarSecuencia(tablero, fila, columna + size, 1, 2);
             }
@@ -104,9 +126,10 @@ namespace Solver
                 {
                     return false;
                 }
-                // Revisar si la secuencia actual es mayor
+                // Primero revisar si ya se tiene el mismo numero de secuencias
                 if (!columnaTerminada && sequenciasActuales.Count < pistas[1][i].Length)
                 {
+                    // Revisar si la secuencia actual es mayor
                     if (sequenciaActual > pistas[1][i][sequenciasActuales.Count]) return false;
                 }
                 // Verificar numero de 2 y el numero sequencias en la columna
@@ -120,7 +143,7 @@ namespace Solver
                     if (sequenciasActuales[x] != pistas[1][i][x]) return false;
                 }
             }
-            // Revisar que esten todas las sequencias
+            // Revisar que esten todas las secuencias
             if (RevisarFilaCompleta(tablero, fila))
             {
                 int totalPistas = 0;
@@ -135,7 +158,6 @@ namespace Solver
                 }
                 if (totalPistas != totalCasillasTablero) return false;
             }
-
             return true;
         }
 
@@ -158,11 +180,13 @@ namespace Solver
         }
         static bool HayEspaciosDisponiblesEnFila(int[,] tablero, int fila, int[] pistasDeFila)
         {
+            // Obtener cantidad de espacios que hay en la fila actual
             int cantidadEspacios = 0;
             for (int i = 0; i < tablero.GetLength(1); i++)
             {
                 if (tablero[fila, i] == 2) cantidadEspacios++;
             }
+            // Obtener cantidad de espacios que deberian haber
             int totalPistas = 0;
             for (int i = 0; i < pistasDeFila.Length; i++)
             {
@@ -184,6 +208,7 @@ namespace Solver
             return cantidadEspacios + totalPistas <= tablero.GetLength(0);
         }
 
+        // TODO: Intentar eliminar esta funcion
         static int[] EncontrarEspacioVacio(int[,] matrix)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)

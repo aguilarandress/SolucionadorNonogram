@@ -95,7 +95,7 @@ public class NonoSceneHandler : MonoBehaviour
         
         this.Contador.Start();
         // Resolver nonogram
-        NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0);
+        NonogramSolver.ResolverNonogram(DataManager.Instance.tablero, DataManager.Instance.infoMono, 0, new int[] { 0, 0 });
         this.Contador.Stop();
         Debug.Log(this.Contador.Elapsed.ToString());
 
