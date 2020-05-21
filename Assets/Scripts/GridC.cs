@@ -29,7 +29,7 @@ public class GridC
         GameObject camaraNew = GameObject.Find("Main Camera");
         camaraNew.transform.position = new Vector3(0, 0, -1);
         float constanteCamara;
-        if((DataManager.Instance.size[0]* DataManager.Instance.size[1])<30)
+        if ((DataManager.Instance.size[0] * DataManager.Instance.size[1]) < 30)
         {
             constanteCamara = 0.95f;
         }
@@ -45,24 +45,31 @@ public class GridC
             for (int x = 0; x < gridArray.GetLength(0); x++)
             {
                 {
-                    GameObject go = new GameObject("slot" + i +"_"+ x);
+                    GameObject go = new GameObject("slot" + i + "_" + x);
                     SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
                     Sprite cuadro = Resources.Load<Sprite>("square");
                     go.GetComponent<SpriteRenderer>().sprite = cuadro;
-                    go.transform.position = new Vector2((-DataManager.Instance.size[0]/2) + i, -(-DataManager.Instance.size[0]/2)-x+-1.6f); 
-                    go.transform.localScale = new Vector2(0.7f,0.7f);
+                    go.transform.position = new Vector2((-DataManager.Instance.size[0] / 2) + i, -(-DataManager.Instance.size[0] / 2) - x + -1.6f);
+                    go.transform.localScale = new Vector2(0.7f, 0.7f);
                 }
             }
         }
         // Se crean labels que contienen las pistas
         GameObject contenedor = GameObject.Find("CanvasPistas");
-        for (int i=0;i< height;i++)
+        for (int i = 0; i < height; i++)
         {
-            GameObject square = GameObject.Find("slot0_"+i.ToString());
-            int [] pistas=DataManager.Instance.infoMono[0][i];
+            GameObject square = GameObject.Find("slot0_" + i.ToString());
+            int[] pistas = DataManager.Instance.infoMono[0][i];
             GameObject label = new GameObject();
             label.AddComponent<TextMeshPro>();
-            label.transform.localPosition = new Vector3(square.transform.position.x-1.7f,square.transform.position.y,1);
+            if (pistas.Length > 5)
+            {
+                label.transform.localPosition = new Vector3(square.transform.position.x - 1.7f - (((pistas.Length+1) % 5) * 0.45f), square.transform.position.y, 1);
+            }                  
+            else
+            {        
+                label.transform.localPosition = new Vector3(square.transform.position.x - 1.7f, square.transform.position.y, 1);
+            }
             string pista="";
             for (int o=0;o<pistas.Length;o++)
             {
@@ -79,7 +86,14 @@ public class GridC
             int[] pistas = DataManager.Instance.infoMono[1][i];
             GameObject label = new GameObject();
             label.AddComponent<TextMeshPro>();
-            label.transform.localPosition = new Vector2(square.transform.position.x , square.transform.position.y+2);
+            if(pistas.Length>5)
+            {
+                label.transform.localPosition = new Vector3(square.transform.position.x, square.transform.position.y + (((pistas.Length + 1) % 5) * 0.45f), 1);
+            }
+            else
+            {
+                label.transform.localPosition = new Vector2(square.transform.position.x, square.transform.position.y + 2);
+            }
             string pista = "";
             for (int o = 0; o < pistas.Length; o++)
             {
